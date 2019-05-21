@@ -38,6 +38,9 @@ FecMall 多商户系统
 *  [FecMall订单日志](fecmall-order-log.md)
 *  [FecMall订单结算](fecmall-order-month.md)
 
+console脚本
+----------
+*  [订单取消脚本](fecmall-console-order-cancel.md)
 
 
 

@@ -3,37 +3,9 @@ FecMall用户取消订单
 
 > 订单创建后，用户进行订单取消的操作
 
-### 订单取消类型
 
-`订单取消`分为2种:
-
-1.用户直接发起订单取消请求后，不需要经销商确认，
-`直接订单取消`成功
-
-当订单创建，支付，以及审核失败失败等状态，
-详细参看代码：
-
-```
-Yii::$service->order->info->orderStatusRedirectCancelArr = [
-    Yii::$service->order->payment_status_pending,
-    Yii::$service->order->payment_status_processing,
-    Yii::$service->order->payment_status_canceled,
-    Yii::$service->order->payment_no_need_status_confirmed,
-    Yii::$service->order->payment_status_confirmed,
-    Yii::$service->order->status_audit_fail,
-]
-```
-
-2.订单取消发起后，需要`经销商`确认
-
-当订单状态为：`订单审核通过`后，用户如果发起`订单取消`请求，需要
-经销商审核，如果经销商没有发货，那么可以根据情况处理取消请求，
-如果经销商发货或者不同意订单取消，那么可以驳回 `订单取消请求`
-
-，
 
 ### 订单取消操作
-
 
 
 用户可以在`账户中心`,
@@ -68,9 +40,7 @@ Yii::$service->order->info->orderStatusRedirectCancelArr = [
 如果点击的是`订单取消拒绝`，那么`订单取消`请求将会被驳回,
 订单将继续按照后续的处理流程继续处理。
 
-3.其他
-
-订单发货后，用户将不能发起`订单取消请求`
+3.订单发货后，用户将不能发起`订单取消请求`
 
 `订单取消请求`还没有审核的时候，订单无法进行其他处理（
 也就是无法进行后续的订单发货操作），只能等
@@ -86,6 +56,72 @@ Yii::$service->order->info->orderStatusRedirectCancelArr = [
 ![xx](images/order-7.png)
 
 线下退款完成后，平台商在后台更改退款状态。
+
+
+### 订单取消类型
+
+`订单取消`，指的是用户下单后，进行订单取消的操作
+，下面是用户（customer）在哪些订单状态下，可以进行订单取消的操作：
+
+```
+Yii::$service->order->payment_status_pending,    // 订单创建状态（未支付）
+Yii::$service->order->payment_status_processing,  //  订单支付中状态
+Yii::$service->order->payment_status_canceled,    // 订单支付取消状态
+Yii::$service->order->payment_no_need_status_confirmed,  // 订单-货到付款支付方式，确认
+Yii::$service->order->payment_status_confirmed,  // 订单支付完成
+Yii::$service->order->status_audit_fail,   // 订单内容审核失败
+Yii::$service->order->status_processing   // 订单内容审核通过，备货中状态
+```
+
+根据订单的状态，有的状态的订单可以直接取消，不需要经销商审核，有的需要经销商审核。
+
+1.用户直接发起订单取消请求后，不需要经销商确认，
+`直接订单取消`成功的情况
+
+当订单创建，支付，以及审核失败等状态，详细参看代码：
+
+```
+Yii::$service->order->info->orderStatusRedirectCancelArr = [
+    Yii::$service->order->payment_status_pending,    // 订单创建状态（未支付）
+    Yii::$service->order->payment_status_processing,  //  订单支付中状态
+    Yii::$service->order->payment_status_canceled,    // 订单支付取消状态
+    Yii::$service->order->payment_no_need_status_confirmed,  // 订单-货到付款支付方式，确认
+    Yii::$service->order->payment_status_confirmed,  // 订单支付完成
+    Yii::$service->order->status_audit_fail,   // 订单内容审核失败
+]
+```
+
+当订单状态在上面的状态范围中，那么，当用户发起订单取消操作后，订单会被直接取消，
+进行产品库存的返还，如果订单已经被在线支付，那么会进行退款处理（平台进行收款，因此由平台进行退款）。
+
+详细代码参看：
+
+```
+Yii::$service->order->process->redirectCancel($orderModel)
+```
+
+
+2.订单取消发起后，需要`经销商`确认
+
+用户发起`订单取消`请求，需要
+经销商审核的情况
+
+```
+$this->orderStatusRequestCancelArr = [
+    Yii::$service->order->status_processing,   // 订单审核通过，备货中
+];
+```   
+
+当订单审核通过后，订单进入备货状态中，如果在该状态，用户发起`订单取消`操作，
+那么需要经销商后台审核，如果进行`订单取消通过`操作，那么订单将会被取消，
+如果进行`订单取消拒绝`操作（譬如已经发货了，无法取消），那么`订单取消请求`将会被拒绝，经销商可以对订单进行正常
+流程的发货操作
+
+
+### 脚本取消订单
+
+对于用户发起的订单，在一段时间内没有支付，系统脚本将会将这部分订单取消掉
+
 
 
 
