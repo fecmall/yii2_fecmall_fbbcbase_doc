@@ -74,6 +74,10 @@ Yii::$service->order->process->delayReceiveOrder($orderModel)
 超过最大时间，用户可以联系平台来解决。
 
 
+3.到期自动收货
 
+当超过最大时间，用户没有进行订单收货操作，将由系统脚本自动进行订单收货操作
+
+详细参看：[FecMall订单自动收货脚本](fecmall-order-auto-received.md)
 
 

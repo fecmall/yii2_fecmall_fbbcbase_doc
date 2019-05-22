@@ -5,6 +5,18 @@
 
 目前是面向的国内的版本
 
+### 演示
+
+前端商城：http://vue.fecmall.com/#/
+
+测试多商户产品，看将这两个产品加入购物车：
+
+http://vue.fecmall.com/#/catalog/product/57cfc212f656f28b5adf9deb
+
+http://vue.fecmall.com/#/catalog/product/57bab0d5f656f2940a3bf56e
+
+然后在购物车，以及下单页面可以看到分
+
 
 ### 入口介绍
 
@@ -36,14 +48,24 @@
 
 ### 关于系统授权
 
-代码100%开源，可以供学习使用，如果用于商业用途需要付费授权
+代码100%开源，可以供学习使用，代码在：https://github.com/fecmall , 无任何代码加密
 
-在使用该系统前，建议先熟悉一下yii2框架，以及fecshop系统的结构原理，
-这样才能更好的开发
+如果用于商业用途需要付费授权，目前授权费：`1999` 
+
+购买授权请联系Terry Q： 2358269014
+
+在使用该系统前，建议先熟悉一下yii2框架
+
+Fecmall是基于fecshop进行的二次开发，因此在使用fecmall之前，
+请务必先熟悉fecshop的安装和使用，才能使用FecMall，否则将会有困惑，
+详细参看：[Fecshop文档](http://www.fecshop.com/wendang)
+
+### 关于文档
 
 
+因为FecMall是在fecshop基础上进行的二次开发，因此，fecshop部分参看fecshop的文档描述
 
-
+下面的文档内容是FecMall进行的二次开发的功能部分介绍。
 
 
 
